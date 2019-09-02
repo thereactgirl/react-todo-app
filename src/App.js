@@ -19,7 +19,7 @@ class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      todos: todoData,
+      todos: [],
       todo: ''
     };
   }
@@ -32,19 +32,21 @@ class App extends React.Component {
    e.preventDefault();
    const newTodo = { task: this.state.todo, completed: false, id: Date.now() };
    this.updateLocalStorage();
-   
-    this.setState({ 
-      todos: [...this.state.todos, newTodo], 
-      todo: '' 
+   this.setState({ 
+     todos: [...this.state.todos, newTodo], 
+     todo: '' 
     });
     
+    console.log(localStorage.getItem("todos"));
  }
 
 
   clearCompleted = e => {
     e.preventDefault();
     let todos = this.state.todos.filter(todo => !todo.completed);
+    this.updateLocalStorage();
     this.setState({todos});
+    console.log(localStorage.getItem("todos"));
   }
 
   toggleCompleted = (id) => {
@@ -59,17 +61,23 @@ class App extends React.Component {
     });
   }
   componentDidMount (){
-    console.log("update 2", this.state.todos);
-    this.state.todos && this.setState({
-          todos: JSON.parse(localStorage.getItem("todos"))
+    // console.log("update 2", this.state.todos);
+    let theData = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem("todos")) : todoData;
+    // console.log("conole", theData);
+    this.setState({
+          todos:theData
         })
   }
+
+
   updateLocalStorage = () => {
-    console.log("update", this.state.todos);
+    // console.log("update", this.state.todos);
     localStorage.setItem("todos", JSON.stringify(this.state.todos))
   };
 
   render() {
+    // console.log(this.state);
+    // console.log(localStorage);
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>

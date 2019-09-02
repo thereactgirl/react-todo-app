@@ -20,11 +20,12 @@ class TodoList extends React.Component {
  
       
     render(){
-        let filteredTodos = this.props.todos.filter(
+        let filteredTodos = this.props.todos ? this.props.todos.filter(
             (todo) => {
                 return todo.task.toLowerCase().indexOf(this.state.search) !== -1;
             }
-        );
+        ) : [];
+
 
         return(
             <div> 
